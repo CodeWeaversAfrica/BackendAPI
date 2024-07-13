@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'twitter': 'twitter', 'email': 'email'}
 
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if username is None:
@@ -29,6 +30,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save()
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True)
@@ -90,12 +92,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         ordering = ['created_at']
 
+
 class StudentManager(models.Manager):
     def search(self, query=None):
         qs = self.get_queryset()
         if query is not None:
             qs = qs.filter(program__icontains=query).distinct()
         return qs
+
 
 class Student(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
