@@ -37,7 +37,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('accounts.urls')),
+    path('auth/', include('accounts.api.urls')),
     path('oauth/', include(('oauth.urls', 'social_auth'),
                                  namespace="social_auth")),
     path('', schema_view.with_ui('swagger',
