@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'oauth',
     'course',
     'forum',
+    'blog',
 ]
 
 SWAGGER_SETTINGS = {
@@ -101,7 +102,6 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
-
 #CORS_ORIGIN_REGEX_WHITELIST = [
  #   r"^https://\w+\.netlify\.app$",
 #]
