@@ -5,7 +5,7 @@ from accounts.views import RegisterView, VerifyEmail, MyTokenObtainPairView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
-    path('email-verify/', VerifyEmail.as_view(), name='email-verify'),
+    path('verify-email/<uuid:short_id>/', VerifyEmail.as_view(), name='verify-email'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('request-reset-email/', RequestPasswordResetEmail.as_view(),
