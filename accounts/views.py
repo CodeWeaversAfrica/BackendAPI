@@ -40,8 +40,8 @@ class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request):
-        user = request.data
-        serializer = self.serializer_class(data=user)
+        user_data = request.data
+        serializer = self.serializer_class(data=user_data)
         serializer.is_valid(raise_exception=True)
 
         email = serializer.validated_data['email']
@@ -51,36 +51,42 @@ class RegisterView(generics.GenericAPIView):
         phone_number = serializer.validated_data['phone_number']
         password = serializer.validated_data['password']
 
-        # Check if email exists in PendingUser or User
-        if PendingUser.objects.filter(email=email).exists() or User.objects.filter(email=email).exists():
+        # Check if email exists in User
+        if User.objects.filter(email=email).exists():
             return Response({'error': "Email already in use"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if email exists in PendingUser and if so, whether the verification link has expired
+        try:
+            pending_user = PendingUser.objects.get(email=email)
+            # If a pending user exists, delete it to allow re-registration
+            pending_user.delete()
+        except PendingUser.DoesNotExist:
+            pass
 
         # Hash the password
         hashed_password = make_password(password)
 
         # Create a token for email verification
-        token_payload = {
-            'email': email
-        }
+        token_payload = {'email': email}
         token = jwt.encode(
             token_payload, settings.SECRET_KEY, algorithm='HS256')
 
         # Save the user data to PendingUser
         pending_user = PendingUser.objects.create(
-            email=email, username=username, first_name=first_name, last_name=last_name, phone_number=phone_number, password=hashed_password, token=str(
-                token)
+            email=email, username=username, first_name=first_name,
+            last_name=last_name, phone_number=phone_number,
+            password=hashed_password, token=str(token)
         )
 
-        # Create a short URL
+        # Create a short URL for verification
         verification_entry = EmailVerification.objects.create(
             email=email, token=str(token)
         )
 
         # Send verification email
-        frontend_url = os.getenv('FRONTEND_URL')
-        relativeLink = f'/verify-email/{verification_entry.short_id}/'
-        absurl = f'{frontend_url}{relativeLink}'
-
+        relative_link = f'/verify-email/{verification_entry.short_id}/'
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+        absurl = f'{frontend_url}{relative_link}'
         email_body = f'Hi {username},\nUse the link below to verify your email:\n{absurl}'
         data = {
             'email_body': email_body,
@@ -88,8 +94,8 @@ class RegisterView(generics.GenericAPIView):
             'email_subject': 'Verify your email'
         }
         Util.send_email(data)
-        return Response({'message': "Verification email sent"}, status=status.HTTP_201_CREATED)
 
+        return Response({'message': "Verification email sent"}, status=status.HTTP_201_CREATED)
 
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer
@@ -149,7 +155,7 @@ class VerifyEmail(views.APIView):
             pending_user.delete()
             verification_entry.delete()
 
-            return Response({'message': 'Email verified successfully'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Email verified successfully'}, status=status.HTTP_202_ACCEPTED)
         except Exception as e:
             logging.error(f"Unexpected error during user creation: {str(e)}")
             return Response({'error': 'An error occurred while verifying the email.'}, status=status.HTTP_400_BAD_REQUEST)
