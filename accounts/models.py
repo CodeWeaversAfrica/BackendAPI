@@ -5,6 +5,7 @@ from django.conf import settings
 from course.models import Course
 from PIL import Image
 from rest_framework_simplejwt.tokens import RefreshToken
+import uuid
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'twitter': 'twitter', 'email': 'email'}
 
@@ -32,6 +33,18 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, username, password, **extra_fields)
+
+class PendingUser(models.Model):
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150)    
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    password = models.CharField(max_length=128)
+    token = models.CharField(max_length=255) # store verification token
+
+    def __str__(self):
+        return self.email
         
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -84,3 +97,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
     class Meta:
         ordering = ['created_at']
+
+
+class EmailVerification(models.Model):
+    short_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    email = models.EmailField()
+    token = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.short_id)

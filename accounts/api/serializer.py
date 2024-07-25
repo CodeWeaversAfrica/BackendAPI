@@ -1,7 +1,11 @@
+from django.conf import settings
+import jwt
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from accounts.models import EmailVerification
 
 User = get_user_model()
 
@@ -28,12 +32,36 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
     
-class EmailVerificationSerializer(serializers.ModelSerializer):
-    token = serializers.CharField()
 
+class EmailVerificationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ["token"]
+        model = EmailVerification
+        fields = ['short_id', 'email', 'token']
+        extra_kwargs = {
+            # Assuming `short_id` is automatically generated
+            'short_id': {'read_only': True},
+            # Assuming `token` is automatically generated
+            'token': {'read_only': True},
+        }
+
+    def validate(self, attrs):
+        short_id = self.context['short_id']
+        try:
+            verification_entry = EmailVerification.objects.get(
+                short_id=short_id)
+        except EmailVerification.DoesNotExist:
+            raise serializers.ValidationError("Invalid verification link.")
+
+        token = verification_entry.token
+        try:
+            payload = jwt.decode(
+                token, settings.SECRET_KEY, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise serializers.ValidationError("Activation link expired.")
+        except jwt.exceptions.DecodeError:
+            raise serializers.ValidationError("Invalid token.")
+
+        return attrs
 
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
