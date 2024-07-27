@@ -31,7 +31,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         return user
-    
+
+class ShortIdSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    short_id = serializers.CharField(max_length=255)
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
     class Meta:
