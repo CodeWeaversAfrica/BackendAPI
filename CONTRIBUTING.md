@@ -5,10 +5,12 @@ Thank you for considering to contribute to our project! We welcome your help to 
 Please refer to our README.md file and have a look at the requirements.
 
 ## Reporting Bugs
-If you find a bug in the project , please open an issue here :
+If you find a bug in the project, please open an issue here:
+https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=bug&template=bug_report.md&title= 
 
 ## Suggesting enhancements
-We welcome new features! You can open an issue at :
+We welcome new features and suggestions! You can open an issue here:
+https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=
 
 ## Code contributions
 Fork the repo: click on the fork button at the top right corner of the repo page.
