@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework import generics, status, views, permissions
 
 from accounts.renderers import UserRenderer
-from .api.serializer import RegisterSerializer, SetNewPasswordSerializer, ResetPasswordEmailRequestSerializer, EmailVerificationSerializer, MyTokenObtainPairSerializer, LogoutSerializer
+from .api.serializer import RegisterSerializer, SetNewPasswordSerializer, ResetPasswordEmailRequestSerializer, EmailVerificationSerializer, MyTokenObtainPairSerializer, LogoutSerializer, ShortIdSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -53,13 +53,14 @@ class RegisterView(generics.GenericAPIView):
 
         # Check if email exists in User
         if User.objects.filter(email=email).exists():
-            return Response({'error': "Email already in use"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': "Email already in use. Please log in."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Check if email exists in PendingUser and if so, whether the verification link has expired
+        # Check if email exists in PendingUser and delete corresponding entries if found
         try:
             pending_user = PendingUser.objects.get(email=email)
-            # If a pending user exists, delete it to allow re-registration
             pending_user.delete()
+            # Also delete corresponding EmailVerification entry
+            EmailVerification.objects.filter(email=email).delete()
         except PendingUser.DoesNotExist:
             pass
 
@@ -85,7 +86,7 @@ class RegisterView(generics.GenericAPIView):
 
         # Send verification email
         relative_link = f'/verify-email/{verification_entry.short_id}/'
-        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
         absurl = f'{frontend_url}{relative_link}'
         email_body = f'Hi {username},\nUse the link below to verify your email:\n{absurl}'
         data = {
@@ -96,7 +97,21 @@ class RegisterView(generics.GenericAPIView):
         Util.send_email(data)
 
         return Response({'message': "Verification email sent"}, status=status.HTTP_201_CREATED)
+    
 
+class GetAllShortIdsView(generics.GenericAPIView):
+    def get(self, request):
+        try:
+            # Fetch all short IDs from the EmailVerification model
+            short_ids = EmailVerification.objects.values_list(
+                'short_id', flat=True)
+            short_ids_list = list(short_ids)  # Convert to list if necessary
+
+            return Response(short_ids_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer
     short_id_param_config = openapi.Parameter(
@@ -112,8 +127,6 @@ class VerifyEmail(views.APIView):
         try:
             verification_entry = EmailVerification.objects.get(
                 short_id=short_id)
-            if verification_entry:
-                return Response({"message": "Valid verification Link"}, status=status.HTTP_202_ACCEPTED)
         except EmailVerification.DoesNotExist:
             return Response({'error': 'Invalid verification link.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -129,15 +142,17 @@ class VerifyEmail(views.APIView):
         except jwt.DecodeError:
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            logging.error(f"Unexpected error during token decoding: {str(e)}")
+            logging.error(f"Token decoding error: {str(e)}")
             return Response({'error': 'An error occurred during verification.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Ensure email exists in PendingUser
         try:
-            pending_user = get_object_or_404(PendingUser, email=email)
-        except Exception as e:
-            logging.error(f"No matching pending user found: {str(e)}")
+            pending_user = PendingUser.objects.get(email=email)
+        except PendingUser.DoesNotExist:
             return Response({'error': 'No matching pending user found.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logging.error(f"PendingUser lookup error: {str(e)}")
+            return Response({'error': 'An error occurred while looking up the pending user.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             # Move data from PendingUser to User
@@ -147,7 +162,7 @@ class VerifyEmail(views.APIView):
                 first_name=pending_user.first_name,
                 last_name=pending_user.last_name,
                 phone_number=pending_user.phone_number,
-                password=pending_user.password,  # Password is already hashed
+                password=pending_user.password,  # Assuming the password is hashed
                 is_verified=True
             )
 
