@@ -38,7 +38,11 @@ git clone https://github.com/your-username/BackendAPI.git
 cd BackendAPI
 
 ### Build and run cointainers
-docker-compose up --build
+make build-up
+
+### Docker
+-For more information on how to set up docker, use docker.txt as a  reference
+-For more information on how you can run commands in the docker environment, use commands.txt as a reference
 
 ## Contributing
 We welcome contributions to this project! Please refer to our CONTRIBUTING.md file for guidelines on contributing. Your help is highly appreciated!

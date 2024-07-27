@@ -1,0 +1,53 @@
+#This txt file comprises of all the commands that we might use in the project with docker, use it as a reference.
+
+#Note Better - In case of permision issues, make sure you are running the commands as the superuser in your local machine, or preceed the command with sudo eg. sudo make build . You must be in the project directory for these commands to work.
+
+# Build and start the services in detached mode
+Command: make build-up
+Description: Build Docker images and start the services in detached mode.
+
+# Build Docker images
+Command: make build
+Description: Build Docker images as specified in the Dockerfile.
+
+# Start the services in detached mode
+Command: make up
+Description: Start the services defined in the docker-compose.yml file in detached mode.
+
+# Stop and remove containers, networks, images, and volumes
+Command: make down
+Description: Stop and remove containers, networks, images, and volumes defined in the docker-compose.yml file.
+
+# View logs of the services
+Command: make logs
+Description: View the logs of all services defined in the docker-compose.yaml file.
+Use this command to log for errors.
+
+# Open a shell in the web service container
+Command: make shell
+Description: Open a shell in the web service container.
+
+# Run Django migrations
+Command: make migrate
+Description: Apply Django migrations to the database.
+
+# Create new Django migrations
+Command: make makemigrations
+Description: Create new Django migrations.
+
+# Run tests
+Command: make test
+Description: Run Django tests (if you have a test command defined).
+
+# Create a new Django app
+Command: make startapp APP_NAME=your_app_name
+Description: Create a new Django app with the specified name. Replace `your_app_name` with the desired name of your app.
+
+# Create a superuser
+Command: make createsuperuser
+Description: Create a new Django superuser.
+
+# Collect static files
+Command: make collectstatic
+Description: Collect static files for the Django application. Use `make collectstatic` to run this command.
+

@@ -1,6 +1,10 @@
-.env
+# Environment files
+.env.local
+.env.dev
 
+# Virtual environment
+venv/
 
-venv
-
+# SQLite database
 db.sqlite3
+
