@@ -38,13 +38,16 @@ If it doesnt work, make sure you are using the correct command to make the entry
 Check if the cointainers are running using this command: docker-compose ps
 
 #Step 7
+Access the application on http://localhost:8000 in your browser.
+
+#Step 8
 If the cointainers didnt build successfully, you might want to look at the logs and use them for debugging using this command: 
 make logs
 
 This command should be your go to incase you suspect your cointainers didnt build well or want to check for any errors or messages.
 
-#Step 8
-Once you make and save any changes in the code you will want to restart the cointainers, use these commands:
+#Step 9
+Once you make and save any changes in the code, you will want to restart the cointainers, use these commands:
 make down
 make build-up
 
@@ -52,5 +55,7 @@ make build-up
 However the command is still available and you can access it and other commands you might use for this project in the commands.txt file
 
 #If you exprience any permission related errors, make sure you are running these commands as the superuser in your system, or preceed them with sudo eg. sudo make build-up
+
+#If any of this doesnt work, open an issue at: https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=bug&template=bug_report.md&title= and we will review it. Check out bug_report.md file in ./.github/ISSUE_TEMPLATE folder to make yourself familiar with the expected issue format.
 
 #Happy Coding
