@@ -1,6 +1,9 @@
-# BackendAPI
+# CodeWeavers BackendAPI
 
-Django Rest Backend API for Code Weavers website
+Django Rest Backend API for Code Weavers website.
+
+[![Python Application Test](https://github.com/KenMwaura1/BackendAPI/actions/workflows/pythonapp.yml/badge.svg)](https://github.com/KenMwaura1/BackendAPI/actions/workflows/pythonapp.yml)
+
 
 ## Overview
 
