@@ -1,5 +1,7 @@
 # API Endpoints Documentation
+
 ***
+
 ## Authentication & User Management
 
 - **POST** `/api/auth/register/` - Register a new user
@@ -124,7 +126,6 @@
 - **DELETE** `/api/videos/{video_id}/comments/{id}/` - Delete a specific comment
 - **POST** `/api/videos/{video_id}/comments/{id}/like/` - Like a specific comment
 
-
 ## Internships
 
 - **GET** `/api/internships/` - List all internships
@@ -159,42 +160,52 @@
 ***
 
 # 1. Authentication & User Management
-## Functional Requirements:
+
+## Functional Requirements
 
 User registration, login, logout.
 Token-based authentication and token refresh.
 User profile management (retrieve, update, delete).
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
 
 Performance: Fast authentication and response times.
 Security: Password encryption, token security, and protection against unauthorized access.
 Scalability: Handle a large number of simultaneous authentication requests.
 Usability: Clear and simple endpoints for managing users.
-## Create a Project Plan:
-### Tools:
+
+## Create a Project Plan
+
+### Tools
+
 Django for backend.
 Django REST Framework for API development.
 PostgreSQL for database.
 Swagger/OPENAPI
 AllAuth
 API Design
-### Design the Data Models:
 
-#### Entities:
+### Design the Data Models
+
+#### Entities
+
 User with fields for username, email, hashed password, and tokens.
 Relationships:
 No direct relationships; simple user management.
 Database Schema:
 
-#### User Table:
+#### User Table
+
 id (Primary Key)
 username (Unique, Indexed)
 email (Unique, Indexed)
 password (Hashed)
 tokens (JSON field for storing tokens)
-### Define API Endpoints:
 
-#### Resource URIs:
+### Define API Endpoints
+
+#### Resource URIs
+
 POST /api/auth/register/
 POST /api/auth/login/
 POST /api/auth/logout/
@@ -202,7 +213,9 @@ POST /api/auth/refresh/
 GET /api/auth/user/
 PUT /api/auth/user/
 DELETE /api/auth/user/
-### HTTP Methods:
+
+### HTTP Methods
+
 POST for registration, login, logout, and token refresh.
 GET for retrieving user details.
 PUT for updating user details.
@@ -211,47 +224,62 @@ Request and Response Formats:
 JSON for all requests and responses.
 Authentication and Authorization:
 
-#### Auth Method: JWT (JSON Web Tokens) for token-based authentication.
-Implement Security: Use django-rest-framework-simplejwt for JWT management.
-### Error Handling:
+#### Auth Method: JWT (JSON Web Tokens) for token-based authentication
 
-#### Standardized Errors:
+Implement Security: Use django-rest-framework-simplejwt for JWT management.
+
+### Error Handling
+
+#### Standardized Errors
+
 400 Bad Request for invalid input.
 401 Unauthorized for authentication issues.
 404 Not Found for user-related endpoints.
-#### Response Format:
+
+#### Response Format
+
 Consistent error message structure with error code and description.
 
 # 2. User Profile
-## Functional Requirements:
+
+## Functional Requirements
 
 Retrieve, update, and manage user profiles.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
 
 Performance: Efficient profile retrieval and updates.
 Security: Ensure profile data is secure and accessible only to authorized users.
 Scalability: Support multiple concurrent profile accesses.
 Usability: Easy-to-use endpoints for profile management.
-## Create a Project Plan:
 
-### Tools:
+## Create a Project Plan
+
+### Tools
+
 Django, Django REST Framework.
 API Design
-### Design the Data Models:
 
-### Entities:
+### Design the Data Models
+
+### Entities
+
 UserProfile with fields for profile data.
-### Database Schema:
 
-#### UserProfile Table:
+### Database Schema
+
+#### UserProfile Table
+
 id (Primary Key)
 user_id (Foreign Key to User)
 bio
 profile_picture
 social_links (JSON field)
-#### Define API Endpoints:
 
-### Resource URIs:
+#### Define API Endpoints
+
+### Resource URIs
+
 GET /api/users/{id}/profile/
 PUT /api/users/{id}/profile/
 HTTP Methods:
@@ -261,90 +289,127 @@ Request and Response Formats:
 JSON for profile data.
 Authentication and Authorization:
 
-### Auth Method: JWT to ensure only authorized users can access profiles.
-Implement Security: Restrict access to profile data based on authentication.
-### Error Handling:
+### Auth Method: JWT to ensure only authorized users can access profiles
 
-#### Standardized Errors:
+Implement Security: Restrict access to profile data based on authentication.
+
+### Error Handling
+
+#### Standardized Errors
+
 404 Not Found for profile retrieval.
 400 Bad Request for invalid update requests.
-#### Response Format:
+
+#### Response Format
+
 Clear error message structure.
+
 # 3. Blogs
-## Functional Requirements:
+
+## Functional Requirements
+
 CRUD operations for blogs.
 
-## Non-Functional Requirements:
+## Non-Functional Requirements
 
 Performance: Handle blog listing and individual retrieval efficiently.
 Security: Ensure only authorized users can create, update, or delete blogs.
 Scalability: Support a large number of blog entries.
 Usability: Intuitive endpoints for blog management.
-## Create a Project Plan:
 
-### Tools:
+## Create a Project Plan
+
+### Tools
+
 Django, Django REST Framework.
 API Design
 Design the Data Models:
 
-### Entities:
+### Entities
+
 Blog with fields for title, content, author, and timestamps.
 Database Schema:
 
-#### Blog Table:
+#### Blog Table
+
 id (Primary Key)
 title
 content
 author_id (Foreign Key to User)
 created_at
 updated_at
-#### Define API Endpoints:
+
+#### Define API Endpoints
+
 Resource URIs:
 GET /api/blogs/
 POST /api/blogs/
 GET /api/blogs/{id}/
 PUT /api/blogs/{id}/
 DELETE /api/blogs/{id}/
-#### HTTP Methods:
+
+#### HTTP Methods
+
 GET to list and retrieve blogs.
 POST to create a blog.
 PUT to update a blog.
 DELETE to delete a blog.
-#### Request and Response Formats:
+
+#### Request and Response Formats
+
 JSON for blog data.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT to manage blog creation and modifications.
 Implement Security: Ensure only the blog author or admin can modify or delete blogs.
-### Error Handling:
-#### Standardized Errors:
+
+### Error Handling
+
+#### Standardized Errors
+
 404 Not Found for non-existent blogs.
 403 Forbidden for unauthorized actions.
-#### Response Format:
+
+#### Response Format
+
 Consistent error message structure.
+
 # 4. Forum
-## Functional Requirements:
+
+## Functional Requirements
+
 CRUD operations for forums and threads within forums.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
+
 Performance: Efficient listing and management of forums and threads.
 Security: Proper access controls for creating and managing forums.
 Scalability: Ability to handle a large number of forums and threads.
 Usability: Clear endpoints for forum management.
-## Create a Project Plan:
+
+## Create a Project Plan
+
 Tools:
 Django, Django REST Framework.
 API Design
-## Design the Data Models:
-### Entities:
+
+## Design the Data Models
+
+### Entities
+
 Forum with fields for title and description.
 Thread with fields for title, content, and forum association.
-### Database Schema:
 
-#### Forum Table:
+### Database Schema
+
+#### Forum Table
 
 id (Primary Key)
 title
 description
-#### Thread Table:
+
+#### Thread Table
 
 id (Primary Key)
 title
@@ -352,58 +417,89 @@ content
 forum_id (Foreign Key to Forum)
 Define API Endpoints:
 
-### Resource URIs:
+### Resource URIs
+
 GET /api/forums/
 POST /api/forums/
 GET /api/forums/{id}/
 PUT /api/forums/{id}/
 DELETE /api/forums/{id}/
-### HTTP Methods:
+
+### HTTP Methods
+
 GET to list and retrieve forums.
 POST to create a forum.
 PUT to update a forum.
 DELETE to delete a forum.
-### Request and Response Formats:
+
+### Request and Response Formats
+
 JSON for forum data.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT for managing forum creation and modifications.
 Implement Security: Control access to forum management features.
-### Error Handling:
-#### Standardized Errors:
+
+### Error Handling
+
+#### Standardized Errors
+
 404 Not Found for non-existent forums.
 403 Forbidden for unauthorized actions.
-#### Response Format:
+
+#### Response Format
+
 Clear and consistent error responses.
+
 # 5. Courses
-## Functional Requirements:
+
+## Functional Requirements
+
 CRUD operations for courses.
 Manage user enrollments in courses.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
+
 Performance: Efficient course listing and user enrollment management.
 Security: Secure course data and user enrollments.
 Scalability: Handle multiple courses and user enrollments.
 Usability: Simple endpoints for course management.
-## Create a Project Plan:
-### Tools:
+
+## Create a Project Plan
+
+### Tools
+
 Django, Django REST Framework.
+
 ### API Design
+
 Design the Data Models:
 
-### Entities:
+### Entities
+
 Course with fields for title, description, and instructor.
 Enrollment with fields for user and course association.
-### Database Schema:
-#### Course Table:
+
+### Database Schema
+
+#### Course Table
+
 id (Primary Key)
 title
 description
 instructor_id (Foreign Key to User)
-### Enrollment Table:
+
+### Enrollment Table
+
 id (Primary Key)
 user_id (Foreign Key to User)
 course_id (Foreign Key to Course)
-### Define API Endpoints:
-#### Resource URIs:
+
+### Define API Endpoints
+
+#### Resource URIs
+
 GET /api/courses/
 POST /api/courses/
 GET /api/courses/{id}/
@@ -412,51 +508,80 @@ DELETE /api/courses/{id}/
 GET /api/users/{user_id}/courses/
 POST /api/users/{user_id}/courses/
 DELETE /api/users/{user_id}/courses/{course_id}/
-### HTTP Methods:
+
+### HTTP Methods
+
 GET to list and retrieve courses and user enrollments.
 POST to create courses and enroll users.
 PUT to update course details.
 DELETE to delete courses and remove enrollments.
-### Request and Response Formats:
+
+### Request and Response Formats
+
 JSON for course and enrollment data.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT to manage course creation and enrollments.
 Implement Security: Control access to course management and enrollment features.
-### Error Handling:
 
-#### Standardized Errors:
+### Error Handling
+
+#### Standardized Errors
+
 404 Not Found for non-existent courses or enrollments.
 403 Forbidden for unauthorized actions.
-#### Response Format:
+
+#### Response Format
+
 Consistent error messages.
+
 # 6. Quizzes
-## Functional Requirements:
+
+## Functional Requirements
+
 CRUD operations for quizzes and questions.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
+
 Performance: Fast retrieval and management of quizzes and questions.
 Security: Secure quiz data and management operations.
 Scalability: Handle large numbers of quizzes and questions.
 Usability: Intuitive endpoints for quiz management.
-## Create a Project Plan:
-### Tools:
+
+## Create a Project Plan
+
+### Tools
+
 Django, Django REST Framework.
+
 ## API Design
-### Design the Data Models:
-### Entities:
+
+### Design the Data Models
+
+### Entities
+
 Quiz with fields for title, description, and associated course.
 Question with fields for content and correct answer.
-### Database Schema:
-#### Quiz Table:
+
+### Database Schema
+
+#### Quiz Table
+
 id (Primary Key)
 title
 description
 course_id (Foreign Key to Course)
-#### Question Table:
+
+#### Question Table
+
 id (Primary Key)
 content
 correct_answer
 quiz_id (Foreign Key to Quiz)
-### Define API Endpoints:
+
+### Define API Endpoints
+
 Resource URIs:
 GET /api/quizzes/
 POST /api/quizzes/
@@ -468,170 +593,277 @@ POST /api/quizzes/{quiz_id}/questions/
 GET /api/quizzes/{quiz_id}/questions/{id}/
 PUT /api/quizzes/{quiz_id}/questions/{id}/
 DELETE /api/quizzes/{quiz_id}/questions/{id}/
-### HTTP Methods:
+
+### HTTP Methods
+
 GET to list and retrieve quizzes and questions.
 POST to create quizzes and questions.
 PUT to update quizzes and questions.
 DELETE to delete quizzes and questions.
 Request and Response Formats:
 JSON for quiz and question data.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT to manage quiz creation and modifications.
 Implement Security: Ensure only authorized users can create or modify quizzes and questions.
-### Error Handling:
-#### Standardized Errors:
+
+### Error Handling
+
+#### Standardized Errors
+
 404 Not Found for non-existent quizzes or questions.
 403 Forbidden for unauthorized actions.
-#### Response Format:
+
+#### Response Format
+
 Consistent and clear error responses.
+
 # 7. Chat and Messages
-## Functional Requirements:
-### Create and Manage Chat Rooms:
+
+## Functional Requirements
+
+### Create and Manage Chat Rooms
+
 Users should be able to create, retrieve, and delete chat rooms.
-### Send and Retrieve Messages:
+
+### Send and Retrieve Messages
+
 Users should be able to send and receive messages in specific chat rooms.
 Retrieve messages for a chat room in real-time or on demand.
-## Non-Functional Requirements:
-### Performance:
+
+## Non-Functional Requirements
+
+### Performance
+
 Real-time messaging capability with low latency.
-### Security:
+
+### Security
+
 Secure chat data and message handling to prevent unauthorized access.
-### Scalability:
+
+### Scalability
+
 Ability to handle a large number of simultaneous chats and messages.
-### Usability:
+
+### Usability
+
 Simple and intuitive endpoints for managing chat rooms and messaging.
+
 ## Create a Project Plan
-### Tools:
+
+### Tools
+
 Backend: Django, Django REST Framework.
 Database: PostgreSQL.
+
 ### API Design
+
 Design the Data Models:
-### Entities:
+
+### Entities
+
 Chat: Fields for id, participants, created_at.
 Message: Fields for id, chat_id, sender_id, content, created_at.
-### Database Schema:
-#### Chats Table:
+
+### Database Schema
+
+#### Chats Table
+
 id (Primary Key)
 participants (JSON field to store list of user IDs)
 created_at (Timestamp)
-#### Messages Table:
+
+#### Messages Table
+
 id (Primary Key)
 chat_id (Foreign Key to Chat)
 sender_id (Foreign Key to User)
 content (Text)
 created_at (Timestamp)
-### Define API Endpoints:
-#### Chats:
+
+### Define API Endpoints
+
+#### Chats
+
 GET /api/chats/: List all chats for the authenticated user.
 POST /api/chats/: Create a new chat.
 GET /api/chats/{id}/: Retrieve a specific chat.
 DELETE /api/chats/{id}/: Delete a specific chat.
-#### Messages:
+
+#### Messages
+
 GET /api/chats/{chat_id}/messages/: List all messages in a specific chat.
 POST /api/chats/{chat_id}/messages/: Send a new message in a specific chat.
 GET /api/chats/{chat_id}/messages/{id}/: Retrieve a specific message.
 DELETE /api/chats/{chat_id}/messages/{id}/: Delete a specific message.
-### HTTP Methods:
+
+### HTTP Methods
+
 GET to list and retrieve chats and messages.
 POST to create new chats and send messages.
 DELETE to remove chats and messages.
-### Request and Response Formats:
+
+### Request and Response Formats
+
 Request: JSON for creating and sending chats and messages.
 Response: JSON for retrieving chat and message details.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT for managing access to chat and messaging features.
 Implement Security: Ensure only authorized users can create or participate in chats and manage messages.
-### Error Handling:
-#### Standardized Errors:
+
+### Error Handling
+
+#### Standardized Errors
+
 400 Bad Request for invalid chat or message data.
 401 Unauthorized for access issues.
 404 Not Found for non-existent chats or messages.
-#### Response Format:
+
+#### Response Format
+
 Consistent error message structure with error code and description.
+
 # 8. Video
-## Functional Requirements:
+
+## Functional Requirements
+
 List Videos: Retrieve a list of all videos.
 Upload Video: Upload a new video.
 Retrieve Video: Get details of a specific video.
 Update Video: Modify video details.
 Delete Video: Remove a specific video.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
+
 Performance: Efficient video listing and retrieval.
 Security: Secure video data and user authentication.
 Scalability: Handle large video files and high traffic.
 Usability: User-friendly video upload and management interface.
+
 ## Create a Project Plan
+
 ### Tools
+
 1. 
 2. 
+
 ### API Design
+
 Design the Data Models:
-### Video:
+
+### Video
+
 Video: id, title, url, description, uploaded_by (FK), created_at, updated_at
-### Database Schema:
-#### Videos Table:
+
+### Database Schema
+
+#### Videos Table
+
 Columns: id (PK), title, url, description, uploaded_by (FK), created_at, updated_at
-### Define API Endpoints:
+
+### Define API Endpoints
+
 GET /api/videos/: List all videos.
 POST /api/videos/: Upload a new video.
 GET /api/videos/{id}/: Retrieve a specific video.
 PUT /api/videos/{id}/: Update video details.
 DELETE /api/videos/{id}/: Delete a specific video.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT for secure access.
 Security: Verify user permissions for managing videos.
-### Error Handling:
-#### Standardized Errors: 
+
+### Error Handling
+
+#### Standardized Errors 
+
 400 Bad Request, 401 Unauthorized, 404 Not Found
-#### Response Format: 
+
+#### Response Format 
+
 JSON with error details.
+
 # 9. Video Comments
-## Functional Requirements:
+
+## Functional Requirements
+
 List Comments: Retrieve all comments on a specific video.
 Post Comment: Add a new comment on a video.
 Retrieve Comment: Get details of a specific comment.
 Update Comment: Modify an existing comment.
 Delete Comment: Remove a specific comment.
-## Non-Functional Requirements:
+
+## Non-Functional Requirements
+
 Performance: Efficient comment listing and retrieval.
 Security: Secure comment data and user authentication.
 Scalability: Handle high volumes of comments.
 Usability: User-friendly comment management interface.
+
 ## Create a Project Plan
+
 ### Tools
+
 1. 
 2. 
+
 ## API Design
+
 Design the Data Models:
-### Comment:
+
+### Comment
+
 Comment: id, video_id (FK), creator_id (FK), content, created_at, updated_at
-### Database Schema:
-#### Comments Table:
+
+### Database Schema
+
+#### Comments Table
+
 Columns: id (PK), video_id (FK), creator_id (FK), content, created_at, updated_at
-#### Define API Endpoints:
+
+#### Define API Endpoints
+
 GET /api/videos/{video_id}/comments/: List all comments on a video.
 POST /api/videos/{video_id}/comments/: Post a new comment on a video.
 GET /api/videos/{video_id}/comments/{id}/: Retrieve a specific comment.
 PUT /api/videos/{video_id}/comments/{id}/: Update a specific comment.
 DELETE /api/videos/{video_id}/comments/{id}/: Delete a specific comment.
-### Authentication and Authorization:
+
+### Authentication and Authorization
+
 Auth Method: JWT for secure access.
 Security: Verify user permissions for managing comments.
-### Error Handling:
-#### Standardized Errors: 
+
+### Error Handling
+
+#### Standardized Errors 
+
 400 Bad Request, 401 Unauthorized, 404 Not Found
-#### Response Format: 
+
+#### Response Format 
+
 JSON with error details.
+
 ## Overall Integration and Final Steps
-### Integration and Testing:
+
+### Integration and Testing
+
 Integration: Integrate the chat and messaging modules with the existing authentication and user management systems.
-### Testing:
+
+### Testing
+
 Unit Tests: Ensure each component (e.g., chat creation, message sending) works independently.
 Integration Tests: Verify that chat and messaging functionality works correctly with other parts of the system (e.g., user profiles).
 End-to-End Tests: Simulate real-world scenarios to ensure that the system behaves as expected under various conditions.
 Load Testing: Test how the system performs under high traffic or with a large number of concurrent messages and chats.
 Security Testing: Check for vulnerabilities such as unauthorized access to chat data and messages.
-### Documentation:
+
+### Documentation
+
 API Documentation: Use tools like Swagger/OpenAPI to generate detailed documentation for the chat and messaging endpoints.
 Usage Guides: Provide clear instructions and examples for developers on how to interact with the chat and messaging APIs.
 Deployment and Maintenance:
@@ -639,6 +871,9 @@ Deployment and Maintenance:
 Deployment: Set up a CI/CD pipeline for automated deployment and updates.
 Monitoring: Implement monitoring tools to track system performance and error rates.
 Maintenance: Regularly update the system for security patches, performance improvements, and feature enhancements.
+
+
+
 
 
 # 10. Jobs
