@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 from django.shortcuts import get_object_or_404
-from .models import Post, Comment
+from .models import Blog, Comment
 
 class IsAdminOrModerator(BasePermission):
     """
@@ -15,7 +15,7 @@ class IsAuthor(BasePermission):
     Custom permission to only allow the author of a post to access or modify it.
     """
     def has_object_permission(self, request, view, obj):
-        if isinstance(obj, Post):
+        if isinstance(obj, Blog):
             return obj.author == request.user
         return False
 
