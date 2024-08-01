@@ -1,4 +1,5 @@
 #This file provides more information on how to set up docker in your local machine to run the project.
+#For these commands to work gracefully, make sure you are running them in the project directory
 
 #Step 1.
 Make sure you have Docker installed and set up in your  development environment.
@@ -51,11 +52,12 @@ Once you make and save any changes in the code, you will want to restart the coi
 make down
 make build-up
 
-#NOTE - You dont have to make migrations since that is automated by the entrypoint.sh anytime you build the cointainer.
+#NOTE - You dont have to make migrations manually since that is automated by the entrypoint.sh and runs anytime you build the cointainer.
 However the command is still available and you can access it and other commands you might use for this project in the commands.txt file
 
 #If you exprience any permission related errors, make sure you are running these commands as the superuser in your system, or preceed them with sudo eg. sudo make build-up
 
 #If any of this doesnt work, open an issue at: https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=bug&template=bug_report.md&title= and we will review it. Check out bug_report.md file in ./.github/ISSUE_TEMPLATE folder to make yourself familiar with the expected issue format.
+
 
 #Happy Coding
