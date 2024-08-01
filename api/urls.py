@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('accounts.api.urls')),
     path('blog/', include('blog.urls')),
+    path('askhive/', include('askhive.urls')),
     path('oauth/', include(('oauth.urls', 'social_auth'),
                            
                                  namespace="social_auth")),
