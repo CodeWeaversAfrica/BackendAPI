@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Post, Comment
+from .models import Category, Blog, Comment
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -12,7 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id', 'name']
 
-class PostSerializer(serializers.ModelSerializer):
+class BlogSerializer(serializers.ModelSerializer):
     """
     Serializer for Post model including nested fields and computed properties.
     """
@@ -26,7 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
     author_bio = serializers.ReadOnlyField(source='author.bio')
 
     class Meta:
-        model = Post
+        model = Blog
         fields = [
             'id',
             'title',

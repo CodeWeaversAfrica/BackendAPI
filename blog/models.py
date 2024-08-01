@@ -25,7 +25,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Post(models.Model):
+class Blog(models.Model):
     """
     Blog Post model with title, content, author, category, and like functionality.
     """
@@ -65,7 +65,7 @@ class Comment(models.Model):
     """
     Comment model for blog posts.
     """
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Reference to custom User
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,112 +1,111 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.exceptions import PermissionDenied 
 from accounts.permissions import IsAuthenticatedAndVerified
 from .permissions import IsAdminOrModerator, IsAuthor, IsCommentAuthor
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer, CommentCreateSerializer
+from .models import Blog, Comment
+from .serializers import BlogSerializer, CommentSerializer, CommentCreateSerializer
 
-class PostListView(generics.ListAPIView):
+class BlogListView(generics.ListAPIView):
     """
-    List all posts or filter by category.
+    List all blogs or filter by category.
     """
-    serializer_class = PostSerializer
+    serializer_class = BlogSerializer
 
     def get_queryset(self):
         category = self.request.GET.get('category', None)
         if category:
-            return Post.objects.filter(category__name=category)
-        return Post.objects.all()
+            return Blog.objects.filter(category__name=category)
+        return Blog.objects.all()
 
     def get_serializer_context(self):
         return {'request': self.request}
 
-class PostDetailView(generics.RetrieveAPIView):
+class BlogDetailView(generics.RetrieveAPIView):
     """
-    Retrieve a single post.
+    Retrieve a single blog.
     """
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
 
     def get_serializer_context(self):
         return {'request': self.request}
 
-class MyPostListView(generics.ListAPIView):
+class MyBlogListView(generics.ListAPIView):
     """
-    List all posts created by the authenticated user.
+    List all blogs created by the authenticated user.
     """
-    serializer_class = PostSerializer
+    serializer_class = BlogSerializer
     permission_classes = [IsAuthenticatedAndVerified]
 
     def get_queryset(self):
-        return Post.objects.filter(author=self.request.user)
+        return Blog.objects.filter(author=self.request.user)
 
     def get_serializer_context(self):
         return {'request': self.request}
 
-class PostCreateView(generics.CreateAPIView):
+class BlogCreateView(generics.CreateAPIView):
     """
-    Create a new post.
+    Create a new blog.
     """
-    serializer_class = PostSerializer
+    serializer_class = BlogSerializer
     permission_classes = [IsAuthenticatedAndVerified]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-class PostUpdateView(generics.UpdateAPIView):
+class BlogUpdateView(generics.UpdateAPIView):
     """
-    Update an existing post.
+    Update an existing blog.
     """
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator,IsAuthor ]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator, IsAuthor ]
 
     def perform_update(self, serializer):
-        post = self.get_object()
+        blog = self.get_object()
         user = self.request.user
         
         # Check if the user is an admin or moderator
         if user.is_staff or user.is_superuser:
-            # Admins and moderators can update any post
+            # Admins and moderators can update any blog
             serializer.save()
         else:
             # If not an admin or moderator, ensure they are the author
-            if post.author == user:
+            if blog.author == user:
                 serializer.save()
             else:
-                raise PermissionDenied('Not authorized to edit this post')
+                raise PermissionDenied('Not authorized to edit this blog')
 
-class PostDeleteView(generics.DestroyAPIView):
+class BlogDeleteView(generics.DestroyAPIView):
     """
-    Delete a post.
+    Delete a blog.
     """
-    queryset = Post.objects.all()
-    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator,IsAuthor ]
+    queryset = Blog.objects.all()
+    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator, IsAuthor ]
 
     def perform_destroy(self, instance):
         user = self.request.user
         
         # Check if the user is an admin or moderator
         if user.is_staff or user.is_superuser:
-            # Admins and moderators can delete any post
+            # Admins and moderators can delete any blog
             instance.delete()
         else:
             # If not an admin or moderator, ensure they are the author
             if instance.author == user:
                 instance.delete()
             else:
-                raise PermissionDenied('Not authorized to delete this post')
+                raise PermissionDenied('Not authorized to delete this blog')
 
 class CommentListView(generics.ListAPIView):
     """
-    List all comments for a post.
+    List all comments for a blog.
     """
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        return Comment.objects.filter(post=self.kwargs['post_pk'])
+        return Comment.objects.filter(blog=self.kwargs['blog_pk'])
 
 class CommentCreateView(generics.CreateAPIView):
     """
@@ -123,7 +122,7 @@ class CommentDeleteView(generics.DestroyAPIView):
     Delete a comment.
     """
     queryset = Comment.objects.all()
-    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator,IsCommentAuthor]
+    permission_classes = [IsAuthenticatedAndVerified, IsAdminOrModerator, IsCommentAuthor]
 
     def perform_destroy(self, instance):
         user = self.request.user
@@ -141,40 +140,40 @@ class CommentDeleteView(generics.DestroyAPIView):
 
 class AddLikeView(generics.GenericAPIView):
     """
-    Add a like to a post.
+    Add a like to a blog.
     """
     permission_classes = [IsAuthenticatedAndVerified]
 
     def post(self, request, pk, *args, **kwargs):
         try:
-            post = Post.objects.get(pk=pk)
-        except Post.DoesNotExist:
-            return Response({'detail': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+            blog = Blog.objects.get(pk=pk)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if request.user in post.likes.all():
-            return Response({'detail': 'Post already liked'}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user in blog.likes.all():
+            return Response({'detail': 'Blog already liked'}, status=status.HTTP_400_BAD_REQUEST)
 
-        post.likes.add(request.user)
-        post.save()
-        serializer = PostSerializer(post, context={'request': request})
+        blog.likes.add(request.user)
+        blog.save()
+        serializer = BlogSerializer(blog, context={'request': request})
         return Response(serializer.data)
 
 class RemoveLikeView(generics.GenericAPIView):
     """
-    Remove a like from a post.
+    Remove a like from a blog.
     """
     permission_classes = [IsAuthenticatedAndVerified]
 
     def post(self, request, pk, *args, **kwargs):
         try:
-            post = Post.objects.get(pk=pk)
-        except Post.DoesNotExist:
-            return Response({'detail': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+            blog = Blog.objects.get(pk=pk)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if request.user not in post.likes.all():
-            return Response({'detail': 'Post not liked yet'}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user not in blog.likes.all():
+            return Response({'detail': 'Blog not liked yet'}, status=status.HTTP_400_BAD_REQUEST)
 
-        post.likes.remove(request.user)
-        post.save()
-        serializer = PostSerializer(post, context={'request': request})
+        blog.likes.remove(request.user)
+        blog.save()
+        serializer = BlogSerializer(blog, context={'request': request})
         return Response(serializer.data)
