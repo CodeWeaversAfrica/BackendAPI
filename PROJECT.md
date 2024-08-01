@@ -125,6 +125,37 @@
 - **POST** `/api/videos/{video_id}/comments/{id}/like/` - Like a specific comment
 
 
+## Internships
+
+- **GET** `/api/internships/` - List all internships
+- **POST** `/api/internships/` - Create a new internship
+- **GET** `/api/internships/{id}/` - Retrieve a specific internship
+- **PUT** `/api/internships/{id}/` - Update a specific internship
+- **DELETE** `/api/internships/{id}/` - Delete a specific internship
+
+### User Internships
+
+- **GET** `/api/users/{user_id}/internships/` - List all internships applied by a specific user
+- **POST** `/api/users/{user_id}/internships/` - Apply for an internship
+- **GET** `/api/users/{user_id}/internships/{internship_id}/` - Retrieve specific internship details for a user
+- **DELETE** `/api/users/{user_id}/internships/{internship_id}/` - Withdraw from an internship
+
+## Jobs
+
+- **GET** `/api/jobs/` - List all jobs
+- **POST** `/api/jobs/` - Create a new job posting
+- **GET** `/api/jobs/{id}/` - Retrieve a specific job
+- **PUT** `/api/jobs/{id}/` - Update a specific job posting
+- **DELETE** `/api/jobs/{id}/` - Delete a specific job posting
+
+### User Jobs
+
+- **GET** `/api/users/{user_id}/jobs/` - List all jobs applied by a specific user
+- **POST** `/api/users/{user_id}/jobs/` - Apply for a job
+- **GET** `/api/users/{user_id}/jobs/{job_id}/` - Retrieve specific job details for a user
+- **DELETE** `/api/users/{user_id}/jobs/{job_id}/` - Withdraw from a job application
+
+
 ***
 
 # 1. Authentication & User Management
@@ -610,4 +641,179 @@ Monitoring: Implement monitoring tools to track system performance and error rat
 Maintenance: Regularly update the system for security patches, performance improvements, and feature enhancements.
 
 
+# 10. Jobs
+
+## Functional Requirements:
+### Create and Manage Jobs:
+Users (typically admins) should be able to create, retrieve, update, and delete job postings.
+
+### Apply for Jobs:
+Users should be able to apply for jobs and view their applications.
+
+### View Applied Jobs:
+Users should be able to list all jobs they have applied for and retrieve specific job details.
+
+## Non-Functional Requirements:
+### Performance:
+Efficient handling of job postings and applications with low latency.
+
+### Security:
+Protect job posting data and application details to ensure only authorized users can create, apply for, and manage jobs.
+
+### Scalability:
+Handle a growing number of job postings and applications.
+
+### Usability:
+Intuitive API endpoints for managing job postings and applications.
+
+## Create a Project Plan
+### Tools:
+Backend: Django, Django REST Framework.
+Database: PostgreSQL.
+
+### API Design
+Design the Data Models:
+### Entities:
+**Job**: Fields for id, title, description, company, location, posted_date.
+**UserJob**: Fields for user_id, job_id, applied_date.
+
+### Database Schema:
+#### Jobs Table:
+- id (Primary Key)
+- title (Text)
+- description (Text)
+- company (Text)
+- location (Text)
+- posted_date (Timestamp)
+
+#### UserJobs Table:
+- user_id (Foreign Key to User)
+- job_id (Foreign Key to Job)
+- applied_date (Timestamp)
+
+### Define API Endpoints:
+#### Jobs:
+- **GET** /api/jobs/: List all jobs.
+- **POST** /api/jobs/: Create a new job posting.
+- **GET** /api/jobs/{id}/: Retrieve a specific job.
+- **PUT** /api/jobs/{id}/: Update a specific job posting.
+- **DELETE** /api/jobs/{id}/: Delete a specific job posting.
+
+#### User Jobs:
+- **GET** /api/users/{user_id}/jobs/: List all jobs applied by a specific user.
+- **POST** /api/users/{user_id}/jobs/: Apply for a job.
+- **GET** /api/users/{user_id}/jobs/{job_id}/: Retrieve specific job details for a user.
+- **DELETE** /api/users/{user_id}/jobs/{job_id}/: Withdraw from a job application.
+
+### HTTP Methods:
+- **GET** to list and retrieve jobs and user-specific applications.
+- **POST** to create new job postings and apply for jobs.
+- **PUT** to update existing job postings.
+- **DELETE** to remove job postings and withdraw from applications.
+
+### Request and Response Formats:
+- **Request**: JSON for creating, updating, and applying for jobs.
+- **Response**: JSON for retrieving details of jobs and application status.
+
+### Authentication and Authorization:
+- **Auth Method**: JWT for managing access to job-related features.
+- **Implement Security**: Ensure that only authorized users can create, apply for, and manage job postings.
+
+### Error Handling:
+#### Standardized Errors:
+- **400 Bad Request**: For invalid data when creating or updating jobs.
+- **401 Unauthorized**: For access issues or unauthorized attempts.
+- **404 Not Found**: For non-existent jobs or user applications.
+
+#### Response Format:
+- Consistent error message structure with error code and description.
+
+---
+
+# 11. Internships
+
+## Functional Requirements:
+### Create and Manage Internships:
+Users (typically admins) should be able to create, retrieve, update, and delete internship postings.
+
+### Apply for Internships:
+Users should be able to apply for internships and view their applications.
+
+### View Applied Internships:
+Users should be able to list all internships they have applied for and retrieve specific internship details.
+
+## Non-Functional Requirements:
+### Performance:
+Efficient handling of internship postings and applications with low latency.
+
+### Security:
+Protect internship posting data and application details to ensure only authorized users can create, apply for, and manage internships.
+
+### Scalability:
+Handle a growing number of internship postings and applications.
+
+### Usability:
+Intuitive API endpoints for managing internship postings and applications.
+
+## Create a Project Plan
+### Tools:
+Backend: Django, Django REST Framework.
+Database: PostgreSQL.
+
+### API Design
+Design the Data Models:
+### Entities:
+**Internship**: Fields for id, title, description, company, location, posted_date.
+**UserInternship**: Fields for user_id, internship_id, applied_date.
+
+### Database Schema:
+#### Internships Table:
+- id (Primary Key)
+- title (Text)
+- description (Text)
+- company (Text)
+- location (Text)
+- posted_date (Timestamp)
+
+#### UserInternships Table:
+- user_id (Foreign Key to User)
+- internship_id (Foreign Key to Internship)
+- applied_date (Timestamp)
+
+### Define API Endpoints:
+#### Internships:
+- **GET** /api/internships/: List all internships.
+- **POST** /api/internships/: Create a new internship.
+- **GET** /api/internships/{id}/: Retrieve a specific internship.
+- **PUT** /api/internships/{id}/: Update a specific internship.
+- **DELETE** /api/internships/{id}/: Delete a specific internship.
+
+#### User Internships:
+- **GET** /api/users/{user_id}/internships/: List all internships applied by a specific user.
+- **POST** /api/users/{user_id}/internships/: Apply for an internship.
+- **GET** /api/users/{user_id}/internships/{internship_id}/: Retrieve specific internship details for a user.
+- **DELETE** /api/users/{user_id}/internships/{internship_id}/: Withdraw from an internship.
+
+### HTTP Methods:
+- **GET** to list and retrieve internships and user-specific applications.
+- **POST** to create new internship postings and apply for internships.
+- **PUT** to update existing internship postings.
+- **DELETE** to remove internship postings and withdraw from applications.
+
+### Request and Response Formats:
+- **Request**: JSON for creating, updating, and applying for internships.
+- **Response**: JSON for retrieving details of internships and application status.
+
+### Authentication and Authorization:
+- **Auth Method**: JWT for managing access to internship-related features.
+- **Implement Security**: Ensure that only authorized users can create, apply for, and manage internship postings.
+
+### Error Handling:
+#### Standardized Errors:
+- **400 Bad Request**: For invalid data when creating or updating internships.
+- **401 Unauthorized**: For access issues or unauthorized attempts.
+- **404 Not Found**: For non-existent internships or user applications.
+
+#### Response Format:
+- Consistent error message structure with error code and description.
 

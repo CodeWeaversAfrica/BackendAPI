@@ -51,3 +51,9 @@ Description: Create a new Django superuser.
 Command: make collectstatic
 Description: Collect static files for the Django application. Use `make collectstatic` to run this command.
 
+#If any of this doesnt work, open an issue at: https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=bug&template=bug_report.md&title= and we will review it. Check out bug_report.md file in ./.github/ISSUE_TEMPLATE folder to make yourself familiar with the expected issue format.
+
+#If you feel a command is missing and want it added open an issue at: https://github.com/CodeWeaversAfrica/BackendAPI/issues/new?assignees=&labels=enhancement&template=feature_request.md&title= . Check out feature_request.md file in ./.github/ISSUE_TEMPLATE folder to make yourself familiar with the expected issue format.
+
+#Happy coding
+

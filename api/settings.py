@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'course',
     'forum',
     'blog',
+    'askhive',
 ]
 
 SWAGGER_SETTINGS = {
