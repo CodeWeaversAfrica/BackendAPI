@@ -125,6 +125,37 @@
 - **POST** `/api/videos/{video_id}/comments/{id}/like/` - Like a specific comment
 
 
+## Internships
+
+- **GET** `/api/internships/` - List all internships
+- **POST** `/api/internships/` - Create a new internship
+- **GET** `/api/internships/{id}/` - Retrieve a specific internship
+- **PUT** `/api/internships/{id}/` - Update a specific internship
+- **DELETE** `/api/internships/{id}/` - Delete a specific internship
+
+### User Internships
+
+- **GET** `/api/users/{user_id}/internships/` - List all internships applied by a specific user
+- **POST** `/api/users/{user_id}/internships/` - Apply for an internship
+- **GET** `/api/users/{user_id}/internships/{internship_id}/` - Retrieve specific internship details for a user
+- **DELETE** `/api/users/{user_id}/internships/{internship_id}/` - Withdraw from an internship
+
+## Jobs
+
+- **GET** `/api/jobs/` - List all jobs
+- **POST** `/api/jobs/` - Create a new job posting
+- **GET** `/api/jobs/{id}/` - Retrieve a specific job
+- **PUT** `/api/jobs/{id}/` - Update a specific job posting
+- **DELETE** `/api/jobs/{id}/` - Delete a specific job posting
+
+### User Jobs
+
+- **GET** `/api/users/{user_id}/jobs/` - List all jobs applied by a specific user
+- **POST** `/api/users/{user_id}/jobs/` - Apply for a job
+- **GET** `/api/users/{user_id}/jobs/{job_id}/` - Retrieve specific job details for a user
+- **DELETE** `/api/users/{user_id}/jobs/{job_id}/` - Withdraw from a job application
+
+
 ***
 
 # 1. Authentication & User Management
