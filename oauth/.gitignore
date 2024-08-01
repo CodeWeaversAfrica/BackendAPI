@@ -23,7 +23,7 @@ __pycache__/
 dist/
 build/
 .pytest_cache
-# Add __pycache__ to ignore list
-__pycache__/
 # Add .pytest_cache to ignore list
 .pytest_cache/
+# Add __pycache__ to ignore list
+__pycache__/
