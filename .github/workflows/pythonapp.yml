@@ -36,7 +36,6 @@ jobs:
       #   run: |
       #       pip install ruff
       #       ruff check --fix
-      # - name: Test with pytest
+      # - name: Run Tests
       #   run: |
-      #       pip install pytest
-      #       pytest
+      #     python manage.py test
