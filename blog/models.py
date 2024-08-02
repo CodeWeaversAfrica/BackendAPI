@@ -65,8 +65,8 @@ class Comment(models.Model):
     """
     Comment model for blog posts.
     """
-    blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Reference to custom User
+    blog = models.ForeignKey(Blog, related_name='blog_comments', on_delete=models.CASCADE, default=1)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_comments')  # Reference to custom User
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
