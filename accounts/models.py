@@ -56,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         (STUDENT, "Student"),
         (COURSE_CREATOR, "Course Creator"),
         (MODERATOR, "Moderator"),
+        #add more roles eg employee, employer
     ]
     AUTH_PROVIDERS = {
         'facebook': 'facebook',

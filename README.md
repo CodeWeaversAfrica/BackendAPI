@@ -48,49 +48,69 @@ Ensure you have the following installed on your machine:
  ```sh
  cd BackendAPI
  ```
-
-2. Create a virtual environment
-
-   ```sh
-   python -m venv venv
-   ```
-
-3. Activate the virtual environment
+## Choose Your Setup Method
+You can either use Docker or set up a virtual environment locally.
+### 1. Using Docker
+This project is set up to run with Docker. For simplicity, we've created custom scripts and user-friendly commands using a Makefile. All necessary Docker commands and configurations are documented in docker.txt and commands.txt.
+Note that when using Docker, you don't need to set up a virtual environment.
+### Copy the provided example file to your .env.dev file
 
    ```sh
-   source venv/bin/activate
+   cp .env.dev.example .env.dev
    ```
 
-4. Install the dependencies
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-5. Copy the provided example file to your .env file
-
-   ```sh
-   cp .env.dev.example .env
-   ```
-
- * Update the .env file with your required environment variables.
-  
-6. Run the server
-
-   ```sh
-   python manage.py runserver
-   ```
-
+ * Update the .env.dev file with your required environment variables.
 ### Build and run cointainers
 
 ```sh
 make build-up
 ```
+### Access the server
+Access the application on http://localhost:8000 in your browser.
+### Additional Resources:
 
-### Docker
+* For Docker setup instructions, refer to docker.txt.
+* For running commands inside the Docker environment, refer to commands.txt.
 
-* For more information on how to set up docker, use docker.txt as a  reference.
-* For more information on how you can run commands in the docker environment, use commands.txt as a reference
+### 2. Running locally in a virtual environment
+###  Create a virtual environment
+
+   ```sh
+   python -m venv venv
+   ```
+
+### Activate the virtual environment
+#### 1. Windows
+   ```sh
+   venv\Scripts\activate
+   ```
+#### 2. macOS/Linux   
+
+   ```sh
+   source venv/bin/activate
+   ```
+
+### Install the dependencies
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+### Copy the provided example file to your .env.dev file
+
+   ```sh
+   cp .env.dev.example .env.dev
+   ```
+
+ * Update the .env.dev file with your required environment variables.
+  
+### Run the server
+
+   ```sh
+   python manage.py runserver
+   ```
+
+
 
 ## Github Actions
 

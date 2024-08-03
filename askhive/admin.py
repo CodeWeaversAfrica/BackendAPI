@@ -17,9 +17,10 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(Vote)
 class VoteAdmin(admin.ModelAdmin):
-    list_display = ('answer', 'user', 'value', 'created_at')
-    list_filter = ('value', 'created_at')
-    ordering = ('-created_at',)
+    list_display = ('answer', 'user', 'value')  # Removed 'created_at'
+    list_filter = ('value',)  # Removed 'created_at'
+    ordering = ('-value',)  # Changed to 'value' or another field present in the Vote model
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

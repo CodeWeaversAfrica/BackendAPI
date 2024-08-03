@@ -40,6 +40,14 @@ class IsModerator(IsRole):
     def __init__(self):
         super().__init__(role="moderator")
 
+class IsEmployee(IsRole):
+    def __init__(self):
+        super().__init__(role="employee")
+
+class IsEmployer(IsRole):
+    def __init__(self):
+        super().__init__(role="employer")        
+
 class IsAdmin(BasePermission):
     #Custom permission to check if the user is an admin.
     def has_permission(self, request, view):
