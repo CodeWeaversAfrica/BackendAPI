@@ -6,14 +6,20 @@ from django.db.models.signals import pre_save, post_save, post_delete
 from django.db.models import Q
 from django.dispatch import receiver
 from .utils import unique_slug_generator
-from core.models import ActivityLog
+#from core.models import ActivityLog
 
 LEVEL = (
     ("Beginner", "Beginner"),
     ("Intermediate", "Intermediate"),
     ("Advanced", "Advanced"),
 )
+class ActivityLog(models.Model):
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"[{self.created_at}]{self.message}"
+    
 class Category(models.Model):
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
@@ -27,10 +33,10 @@ class Category(models.Model):
 
 class Course(models.Model):
     slug = models.SlugField(blank=True, unique=True)
-    title = models.CharField(max_length=200)
-    code = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=200, default='Untitled Course')
+    code = models.CharField(max_length=200, unique=True, default='DEFAULT_CODE')
     description = models.TextField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     level = models.CharField(max_length=25, choices=LEVEL, null=True, blank=True)
     is_published = models.BooleanField(default=True)
     is_elective = models.BooleanField(default=False)
