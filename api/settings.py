@@ -2,14 +2,21 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
-# Load environment variables from .env file
-load_dotenv()
+import dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Load environment variables from the 'env.dev' file
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_file = BASE_DIR / '.env.dev'
+
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+
+SECRET_KEY ='your_secret_key_any_can_do'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=0))
@@ -41,6 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'django_extensions',
+    'anymail',
 
 
     'drf_yasg',
@@ -95,12 +104,41 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default="")
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default="")
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default="")
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default="")
+
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_FROM_EMAIL =os.environ.get('AWS_SES_FROM_EMAIL')
+
+AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY')
+AWS_SES_REGION_NAME = os.environ.get('AWS_SES_REGION_NAME')
+AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
+AWS_SES_FROM_EMAIL = os.environ.get('AWS_SES_FROM_EMAIL')
+USE_SES_V2 = True
+
+
+DOMAIN = os.environ.get('DOMAIN')
+SITE_NAME = os.environ.get('SITE_NAME')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# # Configure email backend to use Anymail with Mailjet
+# EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+
+# # Set the Mailjet API Key and Secret from environment variables
+# ANYMAIL = {
+#     'MAILJET_API_KEY': "356d950591852c84f04646d2245dfec2",
+#     'MAILJET_API_SECRET': "8220546a7b3a65c7711126af7afa9955" ,
+# }
+
+# # Set the default "from" email address
+# DEFAULT_FROM_EMAIL = 'codeweavers.org@gmail.com'
+
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
@@ -120,14 +158,21 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get("SQL_ENGINE"),
+#         'NAME': os.environ.get("SQL_DATABASE"),
+#         'USER': os.environ.get("SQL_USER"),
+#         'PASSWORD': os.environ.get("SQL_PASSWORD"),
+#         'HOST': os.environ.get("SQL_HOST"),
+#         'PORT': os.environ.get("SQL_PORT"),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE"),
-        'NAME': os.environ.get("SQL_DATABASE"),
-        'USER': os.environ.get("SQL_USER"),
-        'PASSWORD': os.environ.get("SQL_PASSWORD"),
-        'HOST': os.environ.get("SQL_HOST"),
-        'PORT': os.environ.get("SQL_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

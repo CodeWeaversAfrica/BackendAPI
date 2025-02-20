@@ -1,29 +1,61 @@
+# # Environment files
+# .env.local
+# .env.dev
+# .env.prod
+# .env 
+
+# # Virtual environment
+# venv/
+# venv
+
+# # SQLite database
+# db.sqlite3
+
+# #ide files
+# .idea/
+# .vscode/
+
+# *.pyc
+# *.pyo
+# *.pyd
+# __pycache__/
+# *.egg-info/
+# dist/
+# build/
+# .pytest_cache
+# # Add __pycache__ to ignore list
+# __pycache__/
+# # Add .pytest_cache to ignore list
+# .pytest_cache/
+
+
 # Environment files
 .env.local
 .env.dev
 .env.prod
-.env 
+.env
 
 # Virtual environment
 venv/
-venv
+venv/
 
 # SQLite database
 db.sqlite3
 
-#ide files
+# IDE files
 .idea/
 .vscode/
 
+# Python bytecode
 *.pyc
 *.pyo
 *.pyd
 __pycache__/
+
+# Egg info and build directories
 *.egg-info/
 dist/
 build/
-.pytest_cache
-# Add __pycache__ to ignore list
-__pycache__/
-# Add .pytest_cache to ignore list
+
+# pytest cache
 .pytest_cache/
